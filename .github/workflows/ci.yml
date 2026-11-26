@@ -1,0 +1,36 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      # scan the CI runner itself - the sweep must complete cleanly anywhere
+      - name: Self-scan
+        run: python -m throne --no-color --min-severity medium
+
+  windows-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install mingw-w64
+        run: sudo apt-get update && sudo apt-get install -y mingw-w64
+      - name: Build throne-win.exe
+        run: make -C windows
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: throne-win
+          path: windows/throne-win.exe

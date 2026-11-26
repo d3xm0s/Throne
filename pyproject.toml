@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "throne-enum"
+version = "1.2.0"
+description = "Linux privilege escalation enumerator - SUID, capabilities, sudo, cron, services, creds and kernel CVE matching, zero dependencies"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "d3xm0s" }]
+keywords = ["privilege-escalation", "privesc", "linux", "post-exploitation", "red-team", "security"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Information Technology",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Security",
+]
+
+[project.scripts]
+throne = "throne.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/d3xm0s/Throne"
+Issues = "https://github.com/d3xm0s/Throne/issues"
+
+[tool.setuptools]
+packages = ["throne", "throne.checks"]
